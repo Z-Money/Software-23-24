@@ -59,7 +59,6 @@ app.post('/check-password', async (req, res) => {
 
         if (match) {
             const name = await printInfo(username);
-            console.log(typeof name);
             res.json({ message: name }); 
         } else {
             console.log(username, password)
@@ -85,10 +84,16 @@ async function printInfo(name) {
         // Make the appropriate DB calls
         const db = client.db('Users');
         const collection  = db.collection('Users-Info');
-        const result = await collection.findOne({ username: name });
-        const name1 = await String(result.name);
-        console.log(typeof name1);
-        return name1;
+        const result = await collection.findOne({ username: name }); //Find memeber by inputted username
+        //check if user exists, then get password, if not return none found
+        const name1 = String(result.name); //Member's name
+        const username = String(result.username); //Member's username
+        if (name1 == username) {
+            return name1; 
+        }
+        else {
+            return "User Not Found";
+        }
 
     } catch (e) {
         console.error(e);
