@@ -2,8 +2,8 @@
   "name": "software-23-24",
   "version": "1.0.0",
   "description": "Manage your chapter's event progress.",
-  "main": "login.js",
-  "start": "login.js",
+  "main": "server.js",
+  "start": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
