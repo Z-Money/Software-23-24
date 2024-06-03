@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <html>
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Chapter Manager | Login</title>
+            <link rel="stylesheet" href="style.css">
+            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        </head>
+
+        <body>
+            <div id="app">
+                <!-- <h1>{{name}}</h1>
+                <button @click="count++">Count: {{ count }}</button> -->
+                <div class="wrapper">
+                    <form>
+                        <h1>Login</h1>
+                        <div class="input-box">
+                            <!-- <label for="user">Username</label> -->
+                            <input type="text" id="username" name="user" placeholder="Username" required>
+                            <i class="bx bxs-user"></i>
+                        </div>
+                        <div class="input-box">
+                            <!-- <label for="pw">Password</label> -->
+                            <input type="text" id="password" name="pw" placeholder="Password" required>
+                            <i class="bx bxs-lock-alt"></i>
+                        </div>
+                        <button type="button" onclick="checkPassword(document.getElementById('username').value, document.getElementById('password').value)"
+                            class="btn">Login</button>
+                            <p id="result"></p>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+            <script src="script.js" type="module"></script>
+            <script src="/login.js"></script>
+            <!-- <script>
+                const { createApp, ref } = Vue
+                createApp({
+                    setup() {
+                        const name = ref('Zachariah K');
+                        const count = ref(0);
+                        const user = ref('');
+                        return {
+                            name, count, user
+                        }
+                    }
+                }).mount('#app')
+            </script> -->
+        </body>
+
+    </html>
