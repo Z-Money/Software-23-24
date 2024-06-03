@@ -49,18 +49,6 @@ async function verifyPassword(plainPassword, hashedPassword) {
         console.error('Error verifying password:', error);
     }
 }
-async function checkPassword(username, password) {
-    const response = await fetch('http://localhost:3000/check-password', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    });
-
-    const result = await response.json();
-    document.getElementById('result').innerText = result.message;
-}
 
 app.post('/check-password', async (req, res) => {
     console.log('Request Body:', req.body);
