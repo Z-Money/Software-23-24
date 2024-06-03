@@ -88,7 +88,7 @@ async function printInfo(name) {
         //check if user exists, then get password, if not return none found
         const name1 = String(result.name); //Member's name
         const username = String(result.username); //Member's username
-        if (name1 == username) {
+        if (name == username) {
             return name1; 
         }
         else {
