@@ -11,8 +11,11 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongodb": "^6.7.0"
+    "mongodb": "^6.7.0",
+    "nylas": "^7.5.0",
+    "stream-chat": "^8.36.0"
   },
   "repository": {
     "type": "git",

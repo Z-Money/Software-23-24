@@ -1,0 +1,162 @@
+.profile-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+    width: auto;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: #333;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.info-item label {
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    text-wrap: wrap;
+    width: min-content;
+}
+
+.info-item label i {
+    margin-right: 8px;
+    color: #666;
+    /* width: 20%; */
+}
+
+.info-item span,
+.info-item ul {
+    color: #666;
+    margin-left: 10px;
+}
+
+.info-item ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-item ul li {
+    margin-bottom: 5px;
+}
+
+.bx {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+#events {
+    text-align: right;
+}
+
+#conferences {
+    text-align: right;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup {
+    position: relative;
+    width: 60%;
+    /* height: 75%; */
+}
+
+#profile-popup {
+    width: auto;
+    height: auto;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 2em;
+}
+
+.popup-active {
+    display: flex;
+}
+
+.task-input {
+    width: 70%;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: .9em;
+}
+
+.task-btn {
+    width: 92.5%;
+    padding: 8px 16px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #6e93f7;
+    transition: all 0.3s ease-in-out;
+}
+
+.task-btn:hover {
+    background-color: #455ed1;
+}
+
+button.add-task-btn {
+    width: 100%;
+}
+
+.delete-task-btn {
+    width: 100%;
+    padding: 8px 0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid red;
+}
+
+.delete-task-btn:hover {
+    background-color: red;
+    color: #fff;
+}

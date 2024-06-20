@@ -1,0 +1,96 @@
+/* Popup container */
+.confirm-container {
+    position: relative;
+    display: inline-block;
+    width: 5%;
+}
+
+/* The actual popup (appears on top) */
+.confirm-container .confirm {
+    visibility: hidden;
+    min-width: 160px;
+    width: auto;
+    /* background-color: #777; */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Popup arrow */
+.confirm-container .confirm::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.confirm-container .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.confirm-btn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: auto;
+}
+
+.confirm-btn {
+    width: 47.5%;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px 2px;
+    color: #fff;
+    font-size: .9em;
+    cursor: pointer;
+}
+
+#confirm-delete-btn {
+    background-color: #008000;
+}
+
+#cancel-delete-btn {
+    background-color: #ff0000;
+}
+
+.confirm span.confirm-btn-container {
+    margin-left: auto;
+}

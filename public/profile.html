@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chapter Manager | Profile</title>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .profile-container {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                min-width: 300px;
+                width: auto;
+                padding: 20px;
+            }
+
+            .profile-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .profile-header h1 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                color: #333;
+            }
+
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .info-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .info-item label {
+                font-weight: bold;
+                color: #333;
+                display: flex;
+                align-items: center;
+                text-wrap: wrap;
+            }
+
+            .info-item label i {
+                margin-right: 8px;
+                color: #666;
+            }
+
+            .info-item span,
+            .info-item ul {
+                color: #666;
+                margin-left: 10px;
+            }
+
+            .info-item ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .info-item ul li {
+                margin-bottom: 5px;
+            }
+
+            .bx {
+                font-size: 1.2em;
+                vertical-align: middle;
+            }
+
+            #events {
+                text-align: right;
+            }
+
+            #conferences {
+                text-align: right;
+            }
+
+            .popup-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                justify-content: center;
+                align-items: center;
+                z-index: 999;
+            }
+
+            .popup {
+                position: relative;
+            }
+
+            .popup-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+
+            .popup-active {
+                display: flex;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="popup-overlay">
+            <div class="popup">
+                <span class="popup-close"><i class='bx bx-x'></i></span>
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <h1><i class='bx bx-user-circle'></i> Profile</h1>
+                    </div>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <label><i class='bx bx-user'></i> Name:</label>
+                            <span id="name">John Doe</span>
+                        </div>
+                        <div class="info-item">
+                            <label><i class='bx bx-user-pin'></i> Username:</label>
+                            <span id="username">johndoe123</span>
+                        </div>
+                        <div class="info-item">
+                            <label><i class='bx bx-envelope'></i> Email:</label>
+                            <span id="email">johndoe@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <label><i class='bx bx-calendar'></i> Year:</label>
+                            <span id="year">Senior</span>
+                        </div>
+                        <div class="info-item">
+                            <label><i class='bx bx-trophy'></i> Events:</label>
+                            <ul id="events">
+                                <li class="event">Event 1</li>
+                                <li class="event">Event 2</li>
+                                <li class="event">Event 3</li>
+                                <li class="event">Event 4</li>
+                            </ul>
+                        </div>
+                        <div class="info-item">
+                            <label><i class='bx bx-world'></i> Conferences<br>Attended:</label>
+                            <ul id="conferences">
+                                <li class="thing">Conference 1</li>
+                                <li class="thing">Conference 2</li>
+                                <li class="thing">Conference 3</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="togglePopup()">Show Profile</button>
+
+        <script>
+            function togglePopup() {
+                const popupOverlay = document.querySelector('.popup-overlay');
+                popupOverlay.classList.toggle('popup-active');
+            }
+
+            document.querySelector('.popup-close').addEventListener('click', togglePopup);
+
+            document.addEventListener("DOMContentLoaded", loadProfile);
+            async function loadProfile() {
+                const user = localStorage.getItem("username");
+                const response = await fetch('http://localhost:3000/profileDetails', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user })
+                });
+
+                const result = await response.json();
+                let name = document.getElementById("name"),
+                    username = document.getElementById("username"),
+                    email = document.getElementById("email"),
+                    year = document.getElementById("year");
+                let events = document.getElementsByClassName("event");
+                let conferences = document.getElementsByClassName("thing");
+
+                name.innerText = result.name;
+                username.innerText = result.username;
+                email.innerText = result.email;
+                year.innerText = result.year;
+                for (let i = 0; i < result.events.length; i++) {
+                    events[i].innerText = result.events[i];
+                }
+                for (let i = 0; i < result.conferences.length; i++) {
+                    conferences[i].innerText = result.conferences[i];
+                }
+            }
+        </script>
+    </body>
+
+</html>

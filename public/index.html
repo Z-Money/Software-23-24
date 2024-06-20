@@ -5,52 +5,59 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Chapter Manager | Login</title>
+            <title>Login | Chapter Connect</title>
+            <link rel="icon" type="images/favicon" href="images/logo.png">
             <link rel="stylesheet" href="style.css">
             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
         </head>
 
         <body>
-            <div id="app">
-                <!-- <h1>{{name}}</h1>
-                <button @click="count++">Count: {{ count }}</button> -->
-                <div class="wrapper">
-                    <form>
-                        <h1>Login</h1>
-                        <div class="input-box">
-                            <!-- <label for="user">Username</label> -->
-                            <input type="text" id="username" name="user" placeholder="Username" required>
-                            <i class="bx bxs-user"></i>
-                        </div>
-                        <div class="input-box">
-                            <!-- <label for="pw">Password</label> -->
-                            <input type="text" id="password" name="pw" placeholder="Password" required>
-                            <i class="bx bxs-lock-alt"></i>
-                        </div>
-                        <button type="button" onclick="checkPassword(document.getElementById('username').value, document.getElementById('password').value)"
-                            class="btn">Login</button>
-                            <p id="result"></p>
-                    </form>
-                </div>
-            </div>
+            <h1 class="title">Chapter Connect</h1>
+            <div class="wrapper">
+                <form>
+                    <h1>Login</h1>
+                    <div class="input-box">
+                        <!-- <label for="user">Username</label> -->
+                        <input type="text" id="username" name="user" placeholder="Username" required>
+                        <i class="bx bxs-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <!-- <label for="pw">Password</label> -->
+                        <input type="password" id="password" name="pw" placeholder="Password" required>
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <button type="button"
+                        onclick="checkPassword(document.getElementById('username').value, document.getElementById('password').value)"
+                        class="btn">Login</button>
+                    <p id="result"></p>
+                </form>
             </div>
 
-            <script src="script.js" type="module"></script>
-            <script src="/server.js"></script>
-            <!-- <script>
-                const { createApp, ref } = Vue
-                createApp({
-                    setup() {
-                        const name = ref('Zachariah K');
-                        const count = ref(0);
-                        const user = ref('');
-                        return {
-                            name, count, user
-                        }
+            <script>
+                async function checkPassword(username, password) {
+                    const response = await fetch('https://software-23-24.onrender.com/check-password', { //for deployment
+                    // const response = await fetch('http://localhost:3000/check-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const result = await response.json();
+                    document.getElementById('result').innerText = result.message;
+                    if (result.message === "Username or Password Invalid") {
+                        return
                     }
-                }).mount('#app')
-            </script> -->
+                    else {
+                        localStorage.setItem("username", result.username);
+                        window.location.href = "general-dash.html";
+                    }
+                }
+                if (localStorage.getItem("username")) {
+                    window.location.href = "general-dash.html";
+                }
+            </script>
         </body>
 
     </html>

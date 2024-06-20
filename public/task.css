@@ -1,0 +1,178 @@
+.task-board {
+    background-color: #fff;
+    border-radius: 1em;
+    width: 85%;
+    flex: 1;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1%;
+}
+
+.task-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 30%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.task-board::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+    background-color: transparent;
+    display: block;
+}
+
+.task-board::-webkit-scrollbar-thumb {
+    /* background-color: #111; */
+    background-color: #00a5d3;
+    border-radius: 1em;
+}
+
+@-moz-document url-prefix() {
+    .task-board {
+        scrollbar-width: thin;
+        scrollbar-color: #00a5d3 transparent;
+    }
+}
+
+.task-card {
+    display: block;
+    margin: .25em;
+    width: 96%;
+    height: max-content;
+    /* min-height: 60px; */
+    padding: 2%;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.column-title {
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+}
+
+.task-card p:not(.event-name) {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+.add-card {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    padding: 2%;
+    background-color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.add-card:hover {
+    background-color: #ddd;
+}
+
+.add-card p {
+    margin: auto;
+    padding: 0;
+}
+
+.incomplete .column-title {
+    color: red;
+}
+
+.progress .column-title {
+    color: orange;
+}
+
+.complete .column-title {
+    color: green;
+}
+
+.incomplete .task-card .due-date {
+    font-size: 0.9em;
+    color: red;
+    font-weight: 600;
+}
+
+.progress .task-card .due-date {
+    font-size: 0.9em;
+    color: orange;
+    font-weight: 600;
+}
+
+.complete .task-card .due-date {
+    font-size: 0.9em;
+    color: green;
+    font-weight: 600;
+}
+
+.event-name {
+    border-radius: 1em;
+    background-color: #2a3de8;
+    color: #000;
+    padding: 0.3em 0.6em;
+    white-space: nowrap;
+    font-size: 0.9em;
+    text-align: center;
+    flex: none;
+    width: fit-content;
+    margin: 0;
+    font-weight: 600;
+}
+
+.event-name p {
+    padding: .3em .6em;
+}
+
+.cad-engineering {
+    background-color: #ffa500;
+}
+
+.chapter-team {
+    background-color: #f34444;
+}
+
+.coding {
+    background-color: #4682b4;
+}
+
+.dragster-design {
+    background-color: brown;
+}
+
+.engineering-design {
+    background-color: #008000;
+}
+
+.essays-on-technology {
+    background-color: #f038ac;
+}
+
+.flight-endurance {
+    background-color: #87ceeb;
+}
+
+.photographic-technology {
+    background-color: #ffc0cb;
+}
+
+.technology-bowl {
+    background-color: #00fa9a;
+}
+
+.webmaster {
+    background-color: #aa86d6;
+}
