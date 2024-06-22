@@ -160,3 +160,35 @@ button.add-task-btn {
     background-color: red;
     color: #fff;
 }
+
+.iframe-popup-container {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: .5em;
+}
+
+.iframe-popup {
+    width: 90%;
+    height: 90%;
+    border-radius: .5em;
+}
+
+.iframe-close {
+    top: 0px;
+    right: 0px;
+}
+
+.bx-expand-alt {
+    cursor: pointer;
+}

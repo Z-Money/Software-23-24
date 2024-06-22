@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
-const StreamChat = require('stream-chat').StreamChat;
 
 const app = express();
 const port = 3000;
@@ -12,38 +11,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const saltRounds = 10;
-
-const serverSideClient = new StreamChat();
-  
-  app.post('/join', async (req, res) => {
-    const { username } = req.body;
-    const token = serverSideClient.createToken(username);
-    try {
-      await serverSideClient.updateUser(
-        {
-          id: username,
-          name: username,
-        },
-        token
-      );
-  
-      const admin = { id: 'admin' };
-      const channel = serverSideClient.channel('team', 'general', {
-        name: 'General',
-        created_by: admin,
-      });
-  
-      await channel.create();
-      await channel.addMembers([username, 'admin']);
-  
-      res
-        .status(200)
-        .json({ user: { username }, token, api_key: process.env.STREAM_API_KEY });
-    } catch (err) {
-      console.error(err);
-      res.status(500);
-    }
-  });
 
 /*
 const generateScrambledPassword = (userID) => {
@@ -266,6 +233,7 @@ async function getCompletion(event) {
         // Make the appropriate DB calls
         const db = client.db('Events');
         const collection = db.collection('Event-Info');
+        await updateProgress(event);
         const result = await collection.findOne({ name: event }); //Find memeber by inputted username
         return result.progress;
 
@@ -413,6 +381,7 @@ async function updateTask(task) {
         let collection = db.collection(task.event);
         await collection.updateOne({ task: task.originalTask }, { $set: { task: task.task, status: task.completion, assigned: task.assignedMembers, due: task.dueDate } }, { upsert: false });
         const result = await collection.findOne({ task: task.task });
+        await updateProgress(task.event);
         return result;
     } catch (e) {
         console.error(e);
@@ -448,6 +417,7 @@ async function createTask(task) {
         idNum += 1;
         await collection.insertOne({ _id: idNum, task: task.task, status: task.completion, assigned: task.assignedMembers, due: task.dueDate });
         const result = await collection.findOne({ task: task.task });
+        await updateProgress(task.event);
         return result;
     } catch (e) {
         console.error(e);
@@ -479,6 +449,7 @@ async function deleteTask(task) {
         let db = client.db('Tasks');
         let collection = db.collection(task.event);
         await collection.deleteOne({ task: task.name });
+        await updateProgress(task.event);
         return task;
     } catch (e) {
         console.error(e);
@@ -543,8 +514,8 @@ async function getEventTask(event) {
         // const userInfo = await collection.findOne({ username: user });
         // const events = userInfo.events;
         let incomplete = [],
-        progress = [],
-        complete = [];
+            progress = [],
+            complete = [];
         incomplete = await collection.find({ status: "Incomplete" }).toArray();
         progress = await collection.find({ status: "Progress" }).toArray();
         complete = await collection.find({ status: "Complete" }).toArray();
@@ -595,6 +566,37 @@ async function getEventTask(event) {
         // return [assignedTask, taskEvents];
     } catch (e) {
         console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+
+async function updateProgress(event) {
+    const uri = "mongodb+srv://Admin:Admin@chapter-connect.potsbpb.mongodb.net/?retryWrites=true&w=majority&appName=Chapter-Connect";
+    const client = new MongoClient(uri);
+
+    try {
+        await client.connect();
+
+        let db = client.db('Tasks');
+        let collection = db.collection(event);
+        const complete = await collection.countDocuments({status: "Complete"});
+        const total = await collection.countDocuments({});
+        let progress = complete / total;
+        progress *= 100;
+        progress = progress.toFixed(0);
+        progress = Number(progress);
+        
+        db = client.db('Events');
+        collection = db.collection('Event-Info');
+        await collection.updateOne({name: event}, {$set: {progress: progress}});
+        //get task db
+        //get event collection
+        //get total task and all task.status not complete
+        //calculate
+        //log completeion for target event in db event collection event info
+    } catch (e) {
+        console.log(e);
     } finally {
         await client.close();
     }

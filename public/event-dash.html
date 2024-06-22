@@ -99,6 +99,8 @@
                 color: #fff;
                 font-family: "Poppins", sans-serif;
                 font-size: 2em;
+                display: flex;
+                align-items: center;
             }
 
             #event-name i {
@@ -148,7 +150,7 @@
                 width: auto;
                 aspect-ratio: 1 / 1;
                 border-radius: 50%;
-                background: conic-gradient(#2a3de8 3.6deg, #ededed 0deg);
+                background: conic-gradient(#2a3de8 3.6deg, #aaa 0deg);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -184,6 +186,7 @@
                 margin: 10px auto;
                 padding: 0;
                 width: 100%;
+                font-size: 1.5em;
             }
 
             .member-list {
@@ -336,10 +339,6 @@
                             <span class="option-text">Profile</span>
                         </li>
                         <li class="option">
-                            <i class="bx bx-cog"></i>
-                            <span class="option-text">Settings</span>
-                        </li>
-                        <li class="option">
                             <i class="bx bx-log-out"></i>
                             <span class="option-text">Logout</span>
                         </li>
@@ -388,7 +387,7 @@
                     </div>
                 </div>
                 <div class="sections" id="calendar">
-                    <h1 class="title">Calendar</h1>
+                    <h1 class="title">Calendar&nbsp;<i class='bx bx-expand-alt' onclick="togglePopup(3)"></i></h1>
                     <iframe frameborder="0" src="https://calendar.online/86c0e897482639553ea8?iframe=true"
                         id="calendar-frame"></iframe>
                 </div>
@@ -424,7 +423,7 @@
                 </div>
 
                 <div class="sections" id="comments">
-                    <h1 class="title">Discussion</h1>
+                    <h1 class="title">Discussion&nbsp;<i class='bx bx-expand-alt' onclick="togglePopup(4)"></i></h1>
                     <div id="chat"></div>
                 </div>
             </div>
@@ -676,18 +675,64 @@
             </div>
         </div>
     </div>
+    <!-- Calendar Popup -->
+    <div class="popup-overlay">
+        <div class="popup iframe-popup">
+            <div class="iframe-popup-container">
+                <span class="popup-close iframe-close"><i class='bx bx-x'></i></span>
+                <iframe frameborder="0" src="https://calendar.online/86c0e897482639553ea8?iframe=true"
+                    class="popup-frame"></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- Chat Popup -->
+    <div class="popup-overlay">
+        <div class="popup iframe-popup">
+            <div class="iframe-popup-container" id="chat-popup-frame">
 
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.deadsimplechat.com/sdk/1.2.1/dschatsdk.min.js"></script>
     <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            loadCompletion();
-            loadEventMembers();
-            loadTask();
-            loadProfile();
+        document.getElementById("chat").innerHTML = `
+                    <iframe src="https://deadsimplechat.com/Io70zSoqh?uniqueUserIdentifier=${localStorage.getItem("username")}" id="chat-frame"></iframe>`;
+        document.getElementById("chat-popup-frame").innerHTML = `
+        
+                <span class="popup-close iframe-close"><i class='bx bx-x'></i></span>            
+        <iframe src="https://deadsimplechat.com/Io70zSoqh?uniqueUserIdentifier=${localStorage.getItem("username")}" id="chat-frame-popup" class="popup-frame"></iframe>`;
+        (async () => {
+            // DSChatSDK construction accepts two parameters:
+            // 1. Chat Room Id
+            // 2. ID of the iFrame tag
+            // 3. Dead Simple Chat Public API Key.
+            const sdk = new DSChatSDK("Io70zSoqh", "chat-frame", "pub_39475a6258343442534448644557574b7338674f536d5237566a4132746f4133795562515230325453354f754e4e4778")
+            // Call the connect method to connect the SDK to the Chat iFrame.
+            await sdk.connect();
+
         });
+        (async () => {
+            // DSChatSDK construction accepts two parameters:
+            // 1. Chat Room Id
+            // 2. ID of the iFrame tag
+            // 3. Dead Simple Chat Public API Key.
+            const sdk = new DSChatSDK("Io70zSoqh", "chat-frame-popup", "pub_39475a6258343442534448644557574b7338674f536d5237566a4132746f4133795562515230325453354f754e4e4778")
+            // Call the connect method to connect the SDK to the Chat iFrame.
+            await sdk.connect();
+
+        });
+    </script>
+    <script>
+        loadCompletion();
+        loadEventMembers();
+        loadTask();
+        loadProfile();
         async function loadCompletion() {
             const event = localStorage.getItem("Event");
             const response = await fetch('https://software-23-24.onrender.com/eventCompletion', { //for deployment
-            // const response = await fetch('http://localhost:3000/eventCompletion', {
+                // const response = await fetch('http://localhost:3000/eventCompletion', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -706,7 +751,7 @@
                 progressStartValue++;
 
                 progressValue.textContent = `${progressStartValue}%`;
-                circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #ededed 0deg)`;
+                circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #aaa 0deg)`;
 
                 if (progressStartValue >= progressEndValue) {
                     clearInterval(progress);
@@ -717,7 +762,7 @@
         async function loadProfile() {
             const user = localStorage.getItem("username");
             const response = await fetch('https://software-23-24.onrender.com/profileDetails', { //for deployment
-            // const response = await fetch('http://localhost:3000/profileDetails', {
+                // const response = await fetch('http://localhost:3000/profileDetails', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -749,7 +794,7 @@
         async function loadEventMembers() {
             const event = localStorage.getItem("Event");
             const response = await fetch('https://software-23-24.onrender.com/getEventMembers', { //for deployment
-            // const response = await fetch('http://localhost:3000/getEventMembers', {
+                // const response = await fetch('http://localhost:3000/getEventMembers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -802,7 +847,7 @@
         async function loadTask() {
             const event = localStorage.getItem("Event");
             const response = await fetch('https://software-23-24.onrender.com/eventTask', { //for deployment
-            // const response = await fetch('http://localhost:3000/eventTask', {
+                // const response = await fetch('http://localhost:3000/eventTask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1093,7 +1138,7 @@
 
             //send request to server
             const response = await fetch('https://software-23-24.onrender.com/updateTask', { //for deployment
-            // const response = await fetch('http://localhost:3000/updateTask', {
+                // const response = await fetch('http://localhost:3000/updateTask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1236,7 +1281,7 @@
 
             //send request to server
             const response = await fetch('https://software-23-24.onrender.com/createTask', { //for deployment
-            // const response = await fetch('http://localhost:3000/createTask', {
+                // const response = await fetch('http://localhost:3000/createTask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1334,7 +1379,7 @@
             console.log(task);
             console.log(taskCard);
             const response = await fetch('https://software-23-24.onrender.com/deleteTask', { //for deployment
-            // const response = await fetch('http://localhost:3000/deleteTask', {
+                // const response = await fetch('http://localhost:3000/deleteTask', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1382,9 +1427,6 @@
             switch (value) {
                 case "Profile":
                     togglePopup(0);
-                    break;
-                case "Settings":
-                    window.location.href = "settings.html";
                     break;
                 case "Logout":
                     localStorage.removeItem("username");
@@ -1534,21 +1576,6 @@
 
         document.getElementById("event-name").addEventListener("click", () => {
             window.location.href = "general-dash.html";
-        });
-    </script>
-    <script src="https://cdn.deadsimplechat.com/sdk/1.2.1/dschatsdk.min.js"></script>
-    <script>
-        document.getElementById("chat").innerHTML = `
-                    <iframe src="https://deadsimplechat.com/Io70zSoqh?uniqueUserIdentifier=${localStorage.getItem("username")}" id="chat-frame"></iframe>`;
-        (async () => {
-            // DSChatSDK construction accepts two parameters:
-            // 1. Chat Room Id
-            // 2. ID of the iFrame tag
-            // 3. Dead Simple Chat Public API Key.
-            const sdk = new DSChatSDK("Io70zSoqh", "chat-frame", "pub_39475a6258343442534448644557574b7338674f536d5237566a4132746f4133795562515230325453354f754e4e4778")
-            // Call the connect method to connect the SDK to the Chat iFrame.
-            await sdk.connect();
-
         });
     </script>
 </body>
