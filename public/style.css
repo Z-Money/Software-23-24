@@ -23,6 +23,14 @@ html body {
     color: #fff;
     text-align: center;
     font-size: 4em;
+    margin-bottom: 10px;
+}
+
+.sub-title {
+    color: #fff;
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 0px;
 }
 
 .wrapper {

@@ -746,17 +746,48 @@
             let progressEndValue = result.completion;
             let circularProgress = document.querySelector(".circular-progress"), progressValue = document.querySelector(".progress-value");
             let progressStartValue = 0, speed = 20;
+            let completion = Number(progressValue.textContent.replace("%", ""));
+            if (completion == 0) {
+                let progress = setInterval(() => {
+                    progressStartValue++;
 
-            let progress = setInterval(() => {
-                progressStartValue++;
+                    progressValue.textContent = `${progressStartValue}%`;
+                    circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #aaa 0deg)`;
 
-                progressValue.textContent = `${progressStartValue}%`;
-                circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #aaa 0deg)`;
+                    if (progressStartValue >= progressEndValue) {
+                        clearInterval(progress);
+                    }
+                }, speed);
+            }
+            else if (progressEndValue == completion) {
+                return 0;
+            }
+            else if (progressEndValue < completion) {
+                progressStartValue = completion;
+                let progress = setInterval(() => {
+                    progressStartValue--;
 
-                if (progressStartValue >= progressEndValue) {
-                    clearInterval(progress);
-                }
-            }, speed);
+                    progressValue.textContent = `${progressStartValue}%`;
+                    circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #aaa 0deg)`;
+
+                    if (progressStartValue <= progressEndValue) {
+                        clearInterval(progress);
+                    }
+                }, speed);
+            }
+            else if (progressEndValue > completion) {
+                progressStartValue = completion;
+                let progress = setInterval(() => {
+                    progressStartValue++;
+
+                    progressValue.textContent = `${progressStartValue}%`;
+                    circularProgress.style.background = `conic-gradient(#2a3de8 ${progressStartValue * 3.6}deg, #aaa 0deg)`;
+
+                    if (progressStartValue >= progressEndValue) {
+                        clearInterval(progress);
+                    }
+                }, speed);
+            }
         }
 
         async function loadProfile() {
@@ -1225,6 +1256,7 @@
             showNewTask(1, String(result.status).toLowerCase());
             console.log(result.status);
             taskCard.remove();
+            loadCompletion();
         }
 
         async function createTask() {
@@ -1365,7 +1397,7 @@
                 });
             }
             showNewTask(1, String(result.status).toLowerCase());
-            console.log(result.status);
+            loadCompletion();
         }
 
         async function deleteTask() {
@@ -1390,6 +1422,7 @@
             const result = await response.json();
             togglePopup(1);
             taskCard.remove();
+            loadCompletion();
         }
 
         async function confirmDelete(res) {
